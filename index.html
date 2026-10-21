@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173c2d">
+<title>E&B y Asoc. S.R.L. — Tickets de carga</title>
+<style>
+:root{--green:#173c2d;--green2:#245b43;--bg:#f4f6f4;--card:#fff;--text:#18231d;--muted:#68766d;--line:#dce4dd;--red:#a72d2d;--amber:#8a5a00}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:var(--green);color:#fff;padding:18px 16px 14px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0002}
+.brand{font-size:20px;font-weight:800;letter-spacing:.2px}.subtitle{font-size:12px;opacity:.85;margin-top:3px}
+nav{display:flex;gap:7px;overflow:auto;margin-top:14px;padding-bottom:2px}
+nav button{white-space:nowrap;background:#ffffff19;color:#fff;border:1px solid #ffffff40;padding:9px 12px;border-radius:9px;font-weight:650}
+nav button.active{background:#fff;color:var(--green)}
+main{max-width:900px;margin:0 auto;padding:14px 12px 36px}.panel{display:none}.panel.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px;box-shadow:0 1px 2px #10201608}
+h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 10px;color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.field{min-width:0}.field.full{grid-column:1/-1}label{display:block;font-size:12px;font-weight:750;color:#45534a;margin-bottom:5px}
+input,select,textarea{width:100%;min-height:42px;border:1px solid #cbd6cd;border-radius:9px;background:#fff;padding:9px 10px;font:inherit;color:var(--text)}
+input:focus,select:focus,textarea:focus{outline:2px solid #8bb59a;border-color:var(--green2)}
+button{cursor:pointer;font:inherit}.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:750;background:var(--green);color:#fff;min-height:42px}.btn.secondary{background:#e7eee8;color:var(--green)}.btn.outline{background:#fff;color:var(--green);border:1px solid #b9c9bd}.btn.danger{background:#a72d2d}.btn.small{padding:7px 10px;min-height:34px;font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.note{font-size:12px;color:var(--muted);line-height:1.45}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#e6f0e8;color:var(--green);font-size:11px;font-weight:800}.pill.cancel{background:#fbe8e8;color:var(--red)}
+.lot{border:1px solid var(--line);border-radius:11px;padding:12px;margin-top:10px;background:#fbfcfb}
+.total{display:flex;justify-content:space-between;align-items:center;background:#edf4ee;padding:13px;border-radius:10px;font-weight:800;color:var(--green);margin-top:10px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:700px;background:#fff;font-size:13px}th,td{padding:9px 10px;text-align:left;border-bottom:1px solid #e5ebe6;white-space:nowrap}th{background:#edf2ee;color:#33443a;position:sticky;top:0}tr:last-child td{border-bottom:0}
+.ticketlist{display:grid;gap:9px}.ticketrow{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}.ticketrow strong{display:block}.ticketrow small{display:block;color:var(--muted);margin-top:3px}.right{text-align:right}.empty{padding:24px;text-align:center;color:var(--muted)}
+.metricgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:#edf4ee;border-radius:11px;padding:14px}.metric b{font-size:22px;color:var(--green);display:block}.metric span{font-size:12px;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:12px}
+hr{border:0;border-top:1px solid var(--line);margin:13px 0}
+@media(min-width:650px){main{padding:20px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.metricgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.ticketrow{align-items:flex-start}.ticketrow .actions{margin-top:0}.brand{font-size:18px}}
+@media print{header,nav,.no-print,footer{display:none!important}body{background:#fff}main{padding:0;max-width:none}.panel{display:none!important}#printPanel{display:block!important}.card{box-shadow:none;border:0}.ticket-paper{padding:15mm;color:#000}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">E&amp;B y Asoc. S.R.L.</div>
+  <div class="subtitle">Registro de cargas de granos · Funciona sin conexión</div>
+  <nav class="no-print">
+    <button class="active" data-tab="nuevo">＋ Nuevo ticket</button>
+    <button data-tab="base">▤ Base de datos</button>
+    <button data-tab="informes">▥ Informes</button>
+    <button data-tab="respaldo">⇅ Copias de seguridad</button>
+  </nav>
+</header>
+<main>
+<section id="nuevo" class="panel active">
+  <form id="ticketForm">
+    <div class="card">
+      <h2>Nuevo ticket de carga</h2>
+      <div class="grid">
+        <div class="field"><label for="fecha">Fecha *</label><input id="fecha" name="fecha" type="date" required></div>
+        <div class="field"><label for="grano">Grano *</label><select id="grano" name="grano" required><option value="">Seleccionar…</option><option>Soja</option><option>Maíz</option><option>Chía</option><option>Sésamo</option><option>Trigo</option><option>Avena</option></select></div>
+        <div class="field"><label for="variedad">Variedad / híbrido</label><input id="variedad" name="variedad" placeholder="Variedad o híbrido"></div>
+        <div class="field"><label for="humedad">Humedad (%)</label><input id="humedad" name="humedad" type="number" min="0" max="100" step="0.1" placeholder="Ej. 13.5"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Datos del camión y transporte</h2>
+      <div class="grid">
+        <div class="field"><label for="camion">Camión N.º</label><input id="camion" name="camion" placeholder="Número de camión"></div>
+        <div class="field"><label for="chofer">Nombre del chofer *</label><input id="chofer" name="chofer" required></div>
+        <div class="field"><label for="telefono">Teléfono del chofer</label><input id="telefono" name="telefono" type="tel" placeholder="Código de área + número"></div>
+        <div class="field"><label for="patente">Patente del chasis *</label><input id="patente" name="patente" required autocapitalize="characters"></div>
+        <div class="field"><label for="transporte">Nombre del transporte</label><input id="transporte" name="transporte"></div>
+        <div class="field"><label for="titular">Titular de carta de porte</label><input id="titular" name="titular"></div>
+        <div class="field"><label for="destino">Destino</label><input id="destino" name="destino" placeholder="Destino de la carga"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Origen y peso por lote</h2>
+      <p class="note">Ingresá los kilos netos de cada lote. Si la carga viene de dos lotes, completá ambos. El total se calcula automáticamente.</p>
+      <div class="lot">
+        <h3>Lote 1 *</h3>
+        <div class="grid">
+          <div class="field"><label for="campo1">Campo de origen *</label><input id="campo1" name="campo1" required></div>
+          <div class="field"><label for="lote1">Lote de origen *</label><input id="lote1" name="lote1" required></div>
+          <div class="field"><label for="peso1">Peso neto lote 1 (kg) *</label><input id="peso1" name="peso1" type="number" min="0" step="1" required value="0"></div>
+        </div>
+      </div>
+      <div class="lot">
+        <h3>Lote 2 (opcional)</h3>
+        <div class="grid">
+          <div class="field"><label for="campo2">Campo de origen</label><input id="campo2" name="campo2"></div>
+          <div class="field"><label for="lote2">Lote de origen</label><input id="lote2" name="lote2"></div>
+          <div class="field"><label for="peso2">Peso neto lote 2 (kg)</label><input id="peso2" name="peso2" type="number" min="0" step="1" value="0"></div>
+        </div>
+      </div>
+      <div class="total"><span>PESO NETO TOTAL</span><span id="netoTotal">0 kg</span></div>
+    </div>
+    <div class="card">
+      <h2>Pesaje del camión</h2>
+      <div class="grid">
+        <div class="field"><label for="bruto">Peso bruto (kg)</label><input id="bruto" name="bruto" type="number" min="0" step="1" placeholder="0"></div>
+        <div class="field"><label for="tara">Peso tara (kg)</label><input id="tara" name="tara" type="number" min="0" step="1" placeholder="0"></div>
+        <div class="field"><label for="observaciones">Observaciones</label><input id="observaciones" name="observaciones" placeholder="Opcional"></div>
+      </div>
+      <p class="note">Si completás peso bruto y tara, el peso neto se calcula como bruto menos tara. Si no, se toma la suma de los kilos asignados a los lotes.</p>
+    </div>
+    <div class="actions no-print">
+      <button class="btn" type="submit">Generar y guardar ticket</button>
+      <button class="btn secondary" type="button" id="limpiar">Limpiar formulario</button>
+    </div>
+  </form>
+  <div id="lastCreated"></div>
+</section>
+
+<section id="base" class="panel">
+  <div class="card">
+    <h2>Base de datos de tickets</h2>
+    <div class="grid">
+      <div class="field"><label for="buscar">Buscar</label><input id="buscar" placeholder="N.º, chofer, patente, campo, lote…"></div>
+      <div class="field"><label for="filtroGrano">Filtrar por grano</label><select id="filtroGrano"><option value="">Todos los granos</option><option>Soja</option><option>Maíz</option><option>Chía</option><option>Sésamo</option><option>Trigo</option><option>Avena</option></select></div>
+      <div class="field"><label for="filtroEstado">Estado</label><select id="filtroEstado"><option value="">Todos</option><option value="vigente">Vigentes</option><option value="anulado">Anulados</option></select></div>
+    </div>
+    <div class="toolbar no-print" style="margin-top:12px"><button class="btn secondary" id="exportCsv">Descargar planilla para Excel (.csv)</button></div>
+    <div id="ticketsTable"></div>
+  </div>
+</section>
+
+<section id="informes" class="panel">
+  <div class="card">
+    <h2>Informes de cargas</h2>
+    <p class="note">Los informes excluyen tickets anulados. Los kilos se agrupan según el grano indicado en cada ticket.</p>
+    <div class="metricgrid" id="metrics"></div>
+    <hr>
+    <h3>Totales por grano</h3>
+    <div id="grainReport"></div>
+  </div>
+</section>
+
+<section id="respaldo" class="panel">
+  <div class="card">
+    <h2>Copias de seguridad</h2>
+    <p>Los datos se guardan en este dispositivo. La pestaña “Base de datos” muestra cada dato en una celda y permite descargar una planilla CSV compatible con Excel. Para evitar perderlos si el celular se rompe o cambia, exportá periódicamente una copia de seguridad y guardala en otro lugar.</p>
+    <div class="actions">
+      <button class="btn" id="backupExport">Descargar copia de seguridad</button>
+      <button class="btn secondary" id="backupImportBtn">Restaurar copia</button>
+      <input type="file" id="backupFile" accept=".json,application/json" hidden>
+    </div>
+    <p class="note">La restauración combina los tickets de la copia con los que ya existen; no reemplaza los registros actuales. Los números de ticket existentes no se reutilizan.</p>
+    <hr>
+    <h3>Estado del almacenamiento</h3>
+    <div id="storageStatus" class="note">Comprobando…</div>
+  </div>
+  <div class="card">
+    <h2>Uso sin internet</h2>
+    <p class="note">La app guarda tickets en el almacenamiento local de este navegador. No borres los datos del navegador ni desinstales la app sin hacer antes una copia. Para compartir por WhatsApp necesitás conexión en el momento del envío; el ticket y su PDF se pueden generar sin conexión.</p>
+  </div>
+</section>
+
+<section id="printPanel" class="panel"></section>
+<footer>E&amp;B y Asoc. S.R.L. · Registro local de cargas</footer>
+</main>
+<script>
+'use strict';
+const DB_NAME='eb_asoc_tickets_db', DB_VERSION=1, STORE='tickets', META='meta';
+let db=null, currentCreatedId=null;
+const $=id=>document.getElementById(id);
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const fmt=n=>Number(n||0).toLocaleString('es-AR');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE)){const st=d.createObjectStore(STORE,{keyPath:'id',autoIncrement:true});st.createIndex('number','number',{unique:true});st.createIndex('status','status',{unique:false})}if(!d.objectStoreNames.contains(META))d.createObjectStore(META,{keyPath:'key'})};req.onsuccess=()=>{db=req.result;resolve(db)};req.onerror=()=>reject(req.error)})}
+function txStore(name,mode='readonly'){return db.transaction(name,mode).objectStore(name)}
+function getAll(){return new Promise((res,rej)=>{const r=txStore(STORE).getAll();r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error)})}
+function getMeta(key){return new Promise((res,rej)=>{const r=txStore(META).get(key);r.onsuccess=()=>res(r.result?.value);r.onerror=()=>rej(r.error)})}
+function setMeta(key,value){return new Promise((res,rej)=>{const t=db.transaction(META,'readwrite');t.objectStore(META).put({key,value});t.oncomplete=()=>res();t.onerror=()=>rej(t.error)})}
+async function nextNumber(){let n=Number(await getMeta('nextNumber')||1);await setMeta('nextNumber',n+1);return String(n).padStart(6,'0')}
+function addTicket(ticket){return new Promise((res,rej)=>{const r=txStore(STORE,'readwrite').add(ticket);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function updateTicket(ticket){return new Promise((res,rej)=>{const r=txStore(STORE,'readwrite').put(ticket);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
+function getTicket(id){return new Promise((res,rej)=>{const r=txStore(STORE).get(Number(id));r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function setTab(tab){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===tab));if(tab==='base')renderTable();if(tab==='informes')renderReports();if(tab==='respaldo')renderStorage()}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+$('fecha').value=today();
+function kilos(){const bruto=$('bruto').value.trim(),tara=$('tara').value.trim();if(bruto!==''&&tara!=='')return Math.max(0,Number(bruto)-Number(tara));return Math.max(0,Number($('peso1').value||0))+Math.max(0,Number($('peso2').value||0))}
+function updateNet(){ $('netoTotal').textContent=fmt(kilos())+' kg'; }
+$('peso1').addEventListener('input',updateNet);$('peso2').addEventListener('input',updateNet);$('bruto').addEventListener('input',updateNet);$('tara').addEventListener('input',updateNet);
+$('limpiar').addEventListener('click',()=>{if(confirm('¿Limpiar los campos del formulario?')){$('ticketForm').reset();$('fecha').value=today();$('peso1').value='0';$('peso2').value='0';updateNet()}});
+function formData(){const f=$('ticketForm');const v=n=>f.elements[n].value.trim();return {date:v('fecha'),grain:v('grano'),variety:v('variedad'),humidity:v('humedad'),truck:v('camion'),driver:v('chofer'),phone:v('telefono'),plate:v('patente').toUpperCase(),transport:v('transporte'),holder:v('titular'),destination:v('destino'),lots:[{field:v('campo1'),lot:v('lote1'),kg:Number(v('peso1')||0)},{field:v('campo2'),lot:v('lote2'),kg:Number(v('peso2')||0)}].filter((l,i)=>i===0||(l.field||l.lot||l.kg>0)),gross:v('bruto'),tare:v('tara'),observations:v('observaciones')}}
+$('ticketForm').addEventListener('submit',async e=>{e.preventDefault();const data=formData();if(data.lots.length===2&&(!data.lots[1].field||!data.lots[1].lot)){alert('Completá el campo y el lote del segundo origen, o dejá vacíos los datos del lote 2 y su peso en cero.');return}if(data.lots[0].kg<=0){alert('El peso neto del lote 1 debe ser mayor que cero.');return}try{const number=await nextNumber();const ticket={...data,number,net:kilos(),status:'vigente',createdAt:new Date().toISOString(),annulReason:'',annulledAt:'',copiedFrom:''};const id=await addTicket(ticket);ticket.id=id;currentCreatedId=id;await showCreated(ticket);$('ticketForm').reset();$('fecha').value=today();$('peso1').value='0';$('peso2').value='0';updateNet()}catch(err){console.error(err);alert('No se pudo guardar el ticket. Hacé una copia de seguridad si tenés datos importantes y volvé a intentar.')}});
+async function showCreated(t){$('lastCreated').innerHTML=`<div class="card"><span class="pill">GUARDADO</span><h2 style="margin-top:9px">Ticket N.º ${esc(t.number)} generado</h2><p>${esc(t.grain)} · ${esc(t.driver)} · ${fmt(t.net)} kg netos</p><div class="actions"><button class="btn" id="pdfBtn">Generar / compartir PDF</button><button class="btn secondary" id="waBtn">Compartir por WhatsApp</button></div><p class="note">Para compartir el PDF, usá “Generar / compartir PDF”. Si tu celular admite compartir archivos, podrás elegir WhatsApp en el menú del sistema.</p></div>`;$('pdfBtn').onclick=()=>makePdfAndShare(t,true);$('waBtn').onclick=()=>shareWhatsApp(t)}
+function ticketText(t){return `E&B y Asoc. S.R.L.\\nCOMPROBANTE DE CARGA DE GRANOS\\nTicket N.º ${t.number}${t.status==='anulado'?' — ANULADO':''}\\nFecha: ${t.date}\\nGrano: ${t.grain}\\nVariedad / híbrido: ${t.variety||'-'}\\nHumedad: ${t.humidity?t.humidity+'%':'-'}\\n\\nTRANSPORTE\\nCamión N.º: ${t.truck||'-'}\\nChofer: ${t.driver}\\nTeléfono: ${t.phone||'-'}\\nPatente chasis: ${t.plate}\\nTransporte: ${t.transport||'-'}\\nTitular carta de porte: ${t.holder||'-'}\\n\\nORIGEN Y PESO POR LOTE\\n${t.lots.map((l,i)=>`Lote ${i+1}: Campo ${l.field}, Lote ${l.lot} — ${fmt(l.kg)} kg`).join('\\n')}\\nPESO NETO TOTAL: ${fmt(t.net)} kg\\nPeso bruto: ${t.gross?fmt(t.gross)+' kg':'-'}\\nPeso tara: ${t.tare?fmt(t.tare)+' kg':'-'}\\nObservaciones: ${t.observations||'-'}${t.status==='anulado'?'\\nMOTIVO DE ANULACIÓN: '+(t.annulReason||'-'):''}`}
+function pdfEscape(s){return String(s??'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\x20-\x7E]/g,' ').replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)')}
+function pdfNet(t){const bruto=Number(t.gross),tara=Number(t.tare);if(t.gross!==''&&t.gross!=null&&t.tare!==''&&t.tare!=null&&Number.isFinite(bruto)&&Number.isFinite(tara))return Math.max(0,bruto-tara);return Number(t.net||0)}
+function makePdfBlob(t){
+  const pageW=595,pageH=842,boxW=420,boxH=280,x=(pageW-boxW)/2,y=(pageH-boxH)/2,labelW=120;
+  const fmtVal=v=>String(v??'').trim().toLocaleUpperCase('es-AR')||'-';
+  const lot=(i)=>t.lots?.[i]||null;
+  const l1=lot(0),l2=lot(1),net=pdfNet(t);
+  const rows=[
+    ['FECHA / TICKET',`${fmtVal(t.date)}  |  N° ${fmtVal(String(t.number).padStart(6,'0')+(t.status==='anulado'?' - ANULADO':''))}`],
+    ['GRANO / VARIEDAD',`${fmtVal(t.grain)}  |  ${fmtVal(t.variety)}`],
+    ['CAMION / CHOFER',`${fmtVal(t.truck)}  |  ${fmtVal(t.driver)}`],
+    ['PATENTE / TRANSPORTE',`${fmtVal(t.plate)}  |  ${fmtVal(t.transport)}`],
+    ['TITULAR CARTA DE PORTE',fmtVal(t.holder)],
+    ['DESTINO',fmtVal(t.destination)],
+    ['CAMPO / LOTE 1',`${fmtVal(l1?.field)}  |  ${fmtVal(l1?.lot)}`],
+    ['PESO NETO LOTE 1 / CAMPO LOTE 2',`${fmtVal(l1?fmt(l1.kg)+' KG':'-')}  |  ${fmtVal(l2?.field)}`],
+    ['LOTE 2 / PESO NETO LOTE 2',`${fmtVal(l2?.lot)}  |  ${fmtVal(l2?fmt(l2.kg)+' KG':'-')}`],
+    ['PESO BRUTO / PESO TARA',`${fmtVal(t.gross?fmt(t.gross)+' KG':'-')}  |  ${fmtVal(t.tare?fmt(t.tare)+' KG':'-')}`],
+    ['PESO NETO / HUMEDAD',`${fmtVal(fmt(net)+' KG')}  |  ${fmtVal(t.humidity?t.humidity+'%':'-')}`],
+    ['TELEFONO CHOFER',fmtVal(t.phone)],
+    ['OBSERVACIONES',fmtVal(t.observations)]
+  ];  const rowH=16, headerH=34, totalH=headerH+rows.length*rowH+26;
+  const bottom=y+(boxH-totalH)/2;
+  let c='';
+  const rect=(rx,ry,rw,rh,gray)=>{c+=`${gray} g ${rx} ${ry} ${rw} ${rh} re f 0 g 0.5 w ${rx} ${ry} ${rw} ${rh} re S\n`;};
+  const txt=(tx,ty,size,str,bold=false)=>{c+=`BT /${bold?'F2':'F1'} ${size} Tf ${tx} ${ty} Td (${pdfEscape(str)}) Tj ET\n`;};
+  // Outer frame and company header
+  rect(x,bottom,boxW,totalH,1);
+  txt(x+10,bottom+totalH-15,10,'E&B Y ASOC. S.R.L.',true);
+  txt(x+10,bottom+totalH-27,8,'COMPROBANTE DE CARGA DE GRANOS',true);
+  c+=`0.6 w ${x} ${bottom+totalH-headerH} m ${x+boxW} ${bottom+totalH-headerH} l S\n`;
+  rows.forEach((r,i)=>{
+    const ry=bottom+totalH-headerH-(i+1)*rowH;
+    const cells=[{cx:x,w:labelW,text:r[0],label:true},{cx:x+labelW,w:boxW-labelW,text:r[1],label:false}];
+    cells.forEach(cell=>{rect(cell.cx,ry,cell.w,rowH,cell.label?0.84:1);const maxChars=Math.max(8,Math.floor((cell.w-8)/(cell.label?3.8:4.0)));let value=cell.text;if(value.length>maxChars)value=value.slice(0,maxChars-1)+'...';txt(cell.cx+4,ry+5.5,cell.label?5.5:6.2,value,cell.label);});
+  });
+  const sigY=bottom+4;rect(x,sigY,boxW,22,1);rect(x,sigY, labelW,22,0.84);txt(x+4,sigY+8,6,'FIRMA RESPONSABLE',true);txt(x+labelW+6,sigY+8,7,'FACUNDO ESTEBAN SARAVIA',true);
+  const content=c;
+  const objs=[];objs[1]='<< /Type /Catalog /Pages 2 0 R >>';objs[2]='<< /Type /Pages /Kids [3 0 R] /Count 1 >>';objs[3]='<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 6 0 R >> >> /Contents 5 0 R >>';objs[4]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';objs[5]=`<< /Length ${new TextEncoder().encode(content).length} >>\nstream\n${content}\nendstream`;objs[6]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+  let pdf='%PDF-1.4\n',offsets=[0];for(let i=1;i<=6;i++){offsets[i]=new TextEncoder().encode(pdf).length;pdf+=`${i} 0 obj\n${objs[i]}\nendobj\n`}const xref=new TextEncoder().encode(pdf).length;pdf+=`xref\n0 7\n0000000000 65535 f \n`;for(let i=1;i<=6;i++)pdf+=String(offsets[i]).padStart(10,'0')+' 00000 n \n';pdf+=`trailer\n<< /Size 7 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;return new Blob([pdf],{type:'application/pdf'})
+}
+async function makePdfAndShare(t,share){const blob=makePdfBlob(t);const file=new File([blob],`Ticket_${t.number}.pdf`,{type:'application/pdf'});if(share&&navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:`Ticket ${t.number}`,text:`E&B y Asoc. S.R.L. — Ticket ${t.number}`});return}catch(e){if(e.name==='AbortError')return}}downloadBlob(blob,`Ticket_${t.number}.pdf`);if(share)alert('Se inició la descarga del PDF. En WhatsApp, adjuntá el archivo Ticket_'+t.number+'.pdf desde Descargas.');}
+function shareWhatsApp(t){const text=encodeURIComponent(`E&B y Asoc. S.R.L. — Ticket N.º ${t.number}\n${t.grain} · ${t.driver} · ${fmt(t.net)} kg netos\n\nEl PDF se puede generar desde el botón “Generar / compartir PDF”.`);window.open('https://wa.me/?text='+text,'_blank')}
+async function renderTable(){const all=(await getAll()).sort((a,b)=>Number(a.number)-Number(b.number));const q=$('buscar').value.toLowerCase().trim(),g=$('filtroGrano').value,s=$('filtroEstado').value;const list=all.filter(t=>(!q||[t.number,t.date,t.grain,t.variety,t.driver,t.phone,t.plate,t.transport,t.holder,t.truck,t.observations,t.annulReason,...t.lots.flatMap(l=>[l.field,l.lot,l.kg])].join(' ').toLowerCase().includes(q))&&(!g||t.grain===g)&&(!s||t.status===s));if(!list.length){$('ticketsTable').innerHTML='<div class="empty">No hay tickets que coincidan con la búsqueda.</div>';return}let rows=list.map(t=>{const l1=t.lots[0]||{},l2=t.lots[1]||{};return `<tr><td>${esc(t.number)}</td><td>${esc(t.status==='anulado'?'ANULADO':'VIGENTE')}</td><td>${esc(t.date)}</td><td>${esc(t.grain)}</td><td>${esc(t.variety||'')}</td><td>${esc(t.humidity||'')}</td><td>${esc(t.truck||'')}</td><td>${esc(t.driver)}</td><td>${esc(t.phone||'')}</td><td>${esc(t.plate)}</td><td>${esc(t.transport||'')}</td><td>${esc(t.holder||'')}</td><td>${esc(t.destination||'')}</td><td>${esc(l1.field||'')}</td><td>${esc(l1.lot||'')}</td><td>${fmt(l1.kg||0)}</td><td>${esc(l2.field||'')}</td><td>${esc(l2.lot||'')}</td><td>${fmt(l2.kg||0)}</td><td><b>${fmt(t.net)} kg</b></td><td>${fmt(t.gross||0)}</td><td>${fmt(t.tare||0)}</td><td>${esc(t.observations||'')}</td><td>${esc(t.annulReason||'')}</td><td><button class="btn small secondary" data-action="view" data-id="${t.id}">Ver / PDF</button> ${t.status==='vigente'?`<button class="btn small danger" data-action="annul" data-id="${t.id}">Anular</button>`:`<button class="btn small secondary" data-action="copy" data-id="${t.id}">Copiar</button>`}</td></tr>`}).join('');$('ticketsTable').innerHTML=`<div class="tablewrap"><table style="min-width:1900px"><thead><tr><th>N.º ticket</th><th>Estado</th><th>Fecha</th><th>Grano</th><th>Variedad / híbrido</th><th>Humedad %</th><th>Camión N.º</th><th>Chofer</th><th>Teléfono</th><th>Patente</th><th>Transporte</th><th>Titular carta de porte</th><th>Destino</th><th>Campo lote 1</th><th>Lote 1</th><th>Kg lote 1</th><th>Campo lote 2</th><th>Lote 2</th><th>Kg lote 2</th><th>Peso neto total</th><th>Bruto kg</th><th>Tara kg</th><th>Observaciones</th><th>Motivo anulación</th><th>Acciones</th></tr></thead><tbody>${rows}</tbody></table></div><p class="note">${list.length} ticket(s) encontrados. La tabla contiene celdas separadas para cada dato y ambos lotes. Deslizá horizontalmente para ver todas las columnas. Usá “Descargar planilla para Excel” para guardar todos los registros en un archivo CSV compatible con Excel.</p>`} 
+$('buscar').addEventListener('input',renderTable);$('filtroGrano').addEventListener('change',renderTable);$('filtroEstado').addEventListener('change',renderTable);
+$('ticketsTable').addEventListener('click',async e=>{const b=e.target.closest('button[data-action]');if(!b)return;const t=await getTicket(b.dataset.id);if(!t)return;if(b.dataset.action==='view'){await showCreated(t);setTab('nuevo');$('lastCreated').scrollIntoView({behavior:'smooth'});return}if(b.dataset.action==='annul'){const reason=prompt(`Motivo de anulación del ticket ${t.number}:`);if(reason===null)return;if(!reason.trim()){alert('Ingresá un motivo para anular el ticket.');return}if(!confirm(`¿Confirmás anular el ticket ${t.number}? El registro se conservará y el número no se reutilizará.`))return;t.status='anulado';t.annulReason=reason.trim();t.annulledAt=new Date().toISOString();await updateTicket(t);await renderTable();return}if(b.dataset.action==='copy'){if(!confirm(`¿Crear un nuevo ticket con los datos del ticket ${t.number}? Se asignará un número nuevo.`))return;const n=await nextNumber();const copy={...t,id:undefined,number:n,status:'vigente',createdAt:new Date().toISOString(),annulReason:'',annulledAt:'',copiedFrom:t.number};delete copy.id;const id=await addTicket(copy);copy.id=id;await showCreated(copy);setTab('nuevo');window.scrollTo({top:0,behavior:'smooth'})}});
+function csvCell(x){return '"'+String(x??'').replace(/"/g,'""')+'"'}
+async function exportCSV(){const all=(await getAll()).sort((a,b)=>Number(a.number)-Number(b.number));const headers=['N.º ticket','Estado','Fecha','Grano','Variedad/Híbrido','Humedad %','Camión N.º','Chofer','Teléfono chofer','Patente chasis','Transporte','Titular carta de porte','Destino','Campo lote 1','Lote 1','Peso lote 1 kg','Campo lote 2','Lote 2','Peso lote 2 kg','Peso neto total kg','Peso bruto kg','Peso tara kg','Observaciones','Motivo anulación','Ticket copiado de'];const rows=all.map(t=>[t.number,t.status,t.date,t.grain,t.variety,t.humidity,t.truck,t.driver,t.phone,t.plate,t.transport,t.holder,t.destination,t.lots[0]?.field,t.lots[0]?.lot,t.lots[0]?.kg,t.lots[1]?.field,t.lots[1]?.lot,t.lots[1]?.kg,t.net,t.gross,t.tare,t.observations,t.annulReason,t.copiedFrom]);const csv='\ufeff'+[headers,...rows].map(r=>r.map(csvCell).join(';')).join('\r\n');downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8;'}),`EB_tickets_${today()}.csv`)}
+$('exportCsv').onclick=exportCSV;
+function downloadBlob(blob,name){if(window.AndroidDownloader&&typeof window.AndroidDownloader.saveFile==='function'){const reader=new FileReader();reader.onloadend=()=>{const data=String(reader.result||'').split(',')[1]||'';window.AndroidDownloader.saveFile(name,blob.type||'application/octet-stream',data)};reader.readAsDataURL(blob);return}const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),15000)}
+async function renderReports(){const all=(await getAll()).filter(t=>t.status==='vigente');const kg=all.reduce((s,t)=>s+Number(t.net||0),0);$('metrics').innerHTML=`<div class="metric"><b>${all.length}</b><span>Tickets vigentes</span></div><div class="metric"><b>${fmt(kg/1000)}</b><span>Toneladas netas</span></div><div class="metric"><b>${new Set(all.map(t=>t.driver)).size}</b><span>Choferes registrados</span></div><div class="metric"><b>${new Set(all.map(t=>t.plate)).size}</b><span>Patentes registradas</span></div>`;const grains=['Soja','Maíz','Chía','Sésamo','Trigo','Avena'];const rows=grains.map(g=>({g,n:all.filter(t=>t.grain===g).length,kg:all.filter(t=>t.grain===g).reduce((s,t)=>s+Number(t.net||0),0)}));$('grainReport').innerHTML=`<div class="tablewrap"><table style="min-width:0"><thead><tr><th>Grano</th><th>Tickets</th><th>Kilos netos</th><th>Toneladas</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.g}</td><td>${r.n}</td><td>${fmt(r.kg)}</td><td>${fmt(r.kg/1000)}</td></tr>`).join('')}</tbody></table></div>`}
+$('backupExport').onclick=async()=>{const tickets=await getAll(),next=await getMeta('nextNumber')||1;downloadBlob(new Blob([JSON.stringify({app:'E&B y Asoc. S.R.L.',formatVersion:1,exportedAt:new Date().toISOString(),nextNumber:next,tickets},null,2)],{type:'application/json'}),`EB_respaldo_${today()}.json`)};
+$('backupImportBtn').onclick=()=>$('backupFile').click();
+$('backupFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!Array.isArray(data.tickets))throw new Error('Archivo no válido');const existing=await getAll(),byNum=new Set(existing.map(t=>t.number));let added=0,skipped=0,max=Number(await getMeta('nextNumber')||1);for(const t of data.tickets){if(!t.number||byNum.has(t.number)){skipped++;continue}const copy={...t};delete copy.id;await addTicket(copy);byNum.add(t.number);added++;max=Math.max(max,Number(t.number)+1)}if(data.nextNumber)max=Math.max(max,Number(data.nextNumber));await setMeta('nextNumber',max);alert(`Restauración finalizada. Importados: ${added}. Omitidos por número repetido o inválido: ${skipped}.`);renderStorage()}catch(err){alert('No se pudo restaurar la copia. Verificá que sea un archivo JSON de respaldo de esta app.')}e.target.value=''};
+async function renderStorage(){const all=await getAll();const next=await getMeta('nextNumber')||1;$('storageStatus').innerHTML=`Tickets guardados en este dispositivo: <b>${all.length}</b><br>Próximo número de ticket: <b>${String(next).padStart(6,'0')}</b><br>Base local: <b>IndexedDB</b>`}
+function pdfPrint(t){const area=$('printPanel');area.innerHTML=`<div class="ticket-paper"><h1 style="text-align:center;margin-bottom:2px">E&amp;B y Asoc. S.R.L.</h1><h2 style="text-align:center">COMPROBANTE DE CARGA DE GRANOS</h2><p><b>Ticket N.º:</b> ${esc(t.number)} ${t.status==='anulado'?'— ANULADO':''} &nbsp;&nbsp; <b>Fecha:</b> ${esc(t.date)}</p><hr><h3>DATOS DEL TRANSPORTE</h3><p>Transporte: ${esc(t.transport||'-')} &nbsp; Camión N.º: ${esc(t.truck||'-')}</p><p>Chofer: ${esc(t.driver)} &nbsp; Teléfono: ${esc(t.phone||'-')}</p><p>Patente del chasis: ${esc(t.plate)}</p><hr><h3>DATOS DE LA CARGA</h3><p>Grano: ${esc(t.grain)} &nbsp; Variedad / híbrido: ${esc(t.variety||'-')} &nbsp; Humedad: ${esc(t.humidity?t.humidity+'%':'-')}</p><p>Titular de carta de porte: ${esc(t.holder||'-')}</p><hr><h3>ORIGEN Y PESO POR LOTE</h3><table style="min-width:0;width:100%"><thead><tr><th>Campo</th><th>Lote</th><th style="text-align:right">Peso neto (kg)</th></tr></thead><tbody>${t.lots.map(l=>`<tr><td>${esc(l.field)}</td><td>${esc(l.lot)}</td><td style="text-align:right">${fmt(l.kg)}</td></tr>`).join('')}</tbody></table><p style="text-align:right;font-size:18px"><b>PESO NETO TOTAL: ${fmt(t.net)} kg</b></p><p>Peso bruto: ${t.gross?fmt(t.gross)+' kg':'-'} &nbsp;&nbsp; Peso tara: ${t.tare?fmt(t.tare)+' kg':'-'}</p><p>Observaciones: ${esc(t.observations||'-')}</p>${t.status==='anulado'?`<p style="color:#a72d2d"><b>MOTIVO DE ANULACIÓN:</b> ${esc(t.annulReason||'-')}</p>`:''}<hr><p style="text-align:center;font-size:11px">E&amp;B y Asoc. S.R.L. — Comprobante de carga</p></div>`;setTab('printPanel');window.print();setTimeout(()=>{area.innerHTML='';setTab('nuevo')},500)}
+// A friendly first-use message and guard against a browser without IndexedDB.
+(async()=>{try{await openDB();const next=await getMeta('nextNumber');if(!next)await setMeta('nextNumber',1);await renderStorage()}catch(e){alert('Este navegador no permite almacenamiento local. Abrí la app con Chrome o un navegador moderno.')}})();
+</script>
+</body>
+</html>
